@@ -1,48 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/03 22:00:35 by aperez-m          #+#    #+#             */
+/*   Updated: 2022/12/03 22:21:51 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
+#include "libft.h"
 
-int	c;
-
-void	sigusr1_handler(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	c++;
-}
+	unsigned char	c_1;
+	unsigned char	*s_1;
 
-void	sigusr2_handler(void)
-{
-	if (c == 0)
-		write(1, "\n", 1);
-	else
-	{
-		write(1, &c, 1);
-		c = 0;
-	}
-}
-
-int	main(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
+	c_1 = (unsigned char)c;
+	s_1 = (unsigned char *)s;
+	if (n == 0)
+		return (NULL);
+	while (c_1 != *s_1 && n-- > 1)
+		s_1++;
+	if (n == 0)
+		return (NULL);
+	return (s_1);
 }

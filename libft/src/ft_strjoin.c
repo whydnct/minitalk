@@ -1,48 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/04 09:23:23 by aperez-m          #+#    #+#             */
+/*   Updated: 2022/12/04 15:45:15 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
+#include "libft.h"
 
-int	c;
-
-void	sigusr1_handler(void)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	c++;
-}
+	char	*s;
+	size_t	len;
 
-void	sigusr2_handler(void)
-{
-	if (c == 0)
-		write(1, "\n", 1);
-	else
-	{
-		write(1, &c, 1);
-		c = 0;
-	}
-}
-
-int	main(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
+	len = ft_strlen(s1) + ft_strlen(s2);
+	s = malloc(len + 1);
+	if (s == NULL)
+		return (NULL);
+	ft_strlcpy(s, s1, len + 1);
+	ft_strlcat(s, s2, len +1);
+	return (s);
 }

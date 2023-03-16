@@ -1,48 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/01 21:29:27 by aperez-m          #+#    #+#             */
+/*   Updated: 2022/12/07 15:00:07 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
-
-int	c;
-
-void	sigusr1_handler(void)
+int	ft_atoi(const char *nptr)
 {
-	c++;
-}
+	int		sign;
+	long	res;
 
-void	sigusr2_handler(void)
-{
-	if (c == 0)
-		write(1, "\n", 1);
-	else
+	sign = 1;
+	res = 0;
+	while (*nptr == ' ' || *nptr == '\t' || *nptr == '\v'
+		|| *nptr == '\f' || *nptr == '\r' || *nptr == '\n')
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		write(1, &c, 1);
-		c = 0;
-	}
-}
-
-int	main(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}	
+	while (*nptr >= '0' && *nptr <= '9')
 	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
+		res = res * 10 + *nptr - '0';
+		nptr++;
 	}
+	return ((int)(sign * res));
 }

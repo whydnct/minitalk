@@ -1,48 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/01 07:45:49 by aperez-m          #+#    #+#             */
+/*   Updated: 2022/12/01 19:08:45 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
+#include "libft.h"
 
-int	c;
-
-void	sigusr1_handler(void)
+char	*ft_strchr(const char *s, int c)
 {
-	c++;
-}
+	int	i;
+	int	l;
 
-void	sigusr2_handler(void)
-{
-	if (c == 0)
-		write(1, "\n", 1);
-	else
+	l = ft_strlen((char *)s);
+	i = 0;
+	while (i <= l)
 	{
-		write(1, &c, 1);
-		c = 0;
+		if (s[i] == (unsigned char)c)
+			return ((char *)s + i);
+		i++;
 	}
-}
-
-int	main(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
+	return (NULL);
 }

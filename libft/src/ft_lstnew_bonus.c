@@ -1,48 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/07 16:31:13 by aperez-m          #+#    #+#             */
+/*   Updated: 2023/02/05 21:06:11 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
+#include "libft.h"
 
-int	c;
-
-void	sigusr1_handler(void)
+t_list	*ft_lstnew(void *content)
 {
-	c++;
+	t_list	*item;
+
+	item = (t_list *)malloc(sizeof(t_list));
+	if (!item)
+		return (NULL);
+	item->content = content;
+	item->next = NULL;
+	return (item);
 }
 
-void	sigusr2_handler(void)
+/*
+int main()
 {
-	if (c == 0)
-		write(1, "\n", 1);
-	else
-	{
-		write(1, &c, 1);
-		c = 0;
-	}
-}
+	char	*content;
+	t_list	**lista;
 
-int	main(void)
-{
-	pid_t	pid;
+	content = "contenido";
+	lista = malloc(sizeof(t_list **));
+	ft_lstadd_front(lista, ft_lstnew(content));
+	ft_putstr_fd((*lista)->content, 1);
 
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
 }
+*/

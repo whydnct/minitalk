@@ -1,48 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2022/12/03 22:24:50 by aperez-m          #+#    #+#             */
+/*   Updated: 2022/12/04 09:50:19 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include "../../libft/src/libft.h"
+#include "libft.h"
 
-int	c;
-
-void	sigusr1_handler(void)
+char	*ft_strdup(const char *s)
 {
-	c++;
-}
+	char	*dup;
+	size_t	i;
 
-void	sigusr2_handler(void)
-{
-	if (c == 0)
-		write(1, "\n", 1);
-	else
+	dup = malloc((ft_strlen(s)+1));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
 	{
-		write(1, &c, 1);
-		c = 0;
+		dup[i] = s[i];
+		i++;
 	}
-}
-
-int	main(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
+	dup[i] = 0;
+	return (dup);
 }

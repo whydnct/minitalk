@@ -5,44 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/16 20:15:16 by aperez-m         ###   ########.fr       */
+/*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
+/*   Updated: 2023/03/16 19:39:17 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
 #include <unistd.h>
 #include "../../libft/src/libft.h"
+#include <signal.h>
 
-int	c;
-
-void	sigusr1_handler(void)
+void	char_to_sigusr1(char c, int srv_pid)
 {
-	c++;
+	int	i;
+
+	i = 0;
+	while (i <= c)
+	{
+		kill(srv_pid, SIGUSR1);
+		i++;
+	}
+	kill(srv_pid, SIGUSR2);
 }
 
-void	sigusr2_handler(void)
+void	send_str(char *str, int srv_pid)
 {
-	if (c == 0)
-		write(1, "\n", 1);
-	else
+	while (*str)
 	{
-		write(1, &c, 1);
-		c = 0;
+		char_to_sigusr1(*str, srv_pid);
+		str++;
 	}
+	kill(srv_pid, SIGUSR2);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	pid_t	pid;
+	int		srv_pid;
+	char	*str_to_pass;
 
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	c = 0;
-	while (1)
-	{
-		//pause();
-		sigusr1_handler();
-		sigusr2_handler();
-	}
+	srv_pid = ft_atoi(argv[0]);
+	str_to_pass = argv[1];
+	send_str(str_to_pass, srv_pid);
 }
