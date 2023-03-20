@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/03/17 15:31:54 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/03/20 19:23:28 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,12 +85,12 @@ $(LIB_A): $(LIB_PATH)
 	@cp libft/libft.a $(LIB_A)
 
 $(NAME_SRV): $(LIB_A) | $(BIN_PATH)
-	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/main.c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_SRV)
-	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/main.c -L$(LIB_PATH) -lft -o $(NAME_SRV)
+	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/$(NAME_SRV).c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_SRV)
+	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/$(NAME_SRV).c -L$(LIB_PATH) -lft -o $(NAME_SRV)
 
 $(NAME_CLIENT): $(LIB_A) | $(BIN_PATH)
-	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/main.c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_CLIENT)
-	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/main.c -L$(LIB_PATH) -lft -o $(NAME_CLIENT)
+	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/$(NAME_CLIENT).c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_CLIENT)
+	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/$(NAME_CLIENT).c -L$(LIB_PATH) -lft -o $(NAME_CLIENT)
 
 
 .PHONY: clean fclean re $(NEW_LIB_A)
