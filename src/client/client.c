@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/20 19:40:48 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:43:47 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	send_char(char c, int srv_pid)
 {
 	int	i;
 
-	i = 3;
+	i = 7;
 	while (i >= 0)
 	{
 		if (c & (1 << i)) 

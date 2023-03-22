@@ -22,5 +22,4 @@ exit
 - El servidor debe ser capaz de mostrar la string suficientemente rápido.
 	- Por rápido queremos decir que si piensas que es está tardando mucho, probablemente es que está tardando demasiado. 1 segundo para mostrar 100 caracteres es ¡muchíiiiisimo!
 - Tu servidor debe poder recibir strings de distintos clientes consecutivamente, sin necesidad de reiniciar.
-- La comunicación entre tu cliente y tu servidor debe hacerse SOLO utilizando
-señales UNIX.
+- La comunicación entre tu cliente y tu servidor debe hacerse SOLO utilizando señales UNIX.
