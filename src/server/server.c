@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/22 20:41:30 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/23 20:55:02 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,56 @@
 #include "../../libft/src/libft.h"
 #include <signal.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
-void	char_printer(int bit)
+void	char_printer(int bit, int client_pid)
 {
-	static int	i = 7;
-	static char	c = 0;
+	static int				i = 7;
+	static unsigned char	c = 0;
+	static int				signal_dest = 0;
 
-	if (i < 0)
-	{
-		c = 0;
-		i = 7;
-	}
+	if (!signal_dest)
+		signal_dest = client_pid;
 	if (i >= 0)
 	{
-		c = (c | bit << i);
+		c |= (bit << i);
 		i--;
 	}
 	if (i < 0)
-		write(1, &c, 1);
+	{
+		if (!c)
+		{
+			kill(signal_dest, SIGUSR2);
+			signal_dest = 0;
+		}
+		else
+			write(1, &c, 1);
+		c = 0;
+		i = 7;
+	}
 }
 
-void	sigusr_handler(int signal, siginfo_t *info, void *context)
+void	action(int signal, siginfo_t *info, void *context)
 {
-	(void)info;
 	(void)context;
-	if (signal == SIGUSR1)
-		char_printer(1);
-	else
-		char_printer(0);
+	char_printer(signal == SIGUSR1, info->si_pid);
 }
 
 int	main(void)
 {
 	struct sigaction	sa;
 	pid_t				pid;
+	int					fid;
 
+	fid = open("server_id", O_WRONLY);
 	pid = getpid();
 	ft_putnbr_fd(pid, 1);
+	ft_putnbr_fd(pid, fid);
+	close(fid);
 	write(1, "\n", 1);
-	sa.sa_sigaction = &sigusr_handler;
+	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
-    sigemptyset(&sa.sa_mask);
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
