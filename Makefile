@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/03/20 19:23:28 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/03/24 08:13:46 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME_CLIENT = client
 BIN_PATH = bin
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g1 -fsanitize=address
+CFLAGS = -Wall -Wextra
 
 AR = ar
 ARFLAGS = rcs

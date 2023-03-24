@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/23 20:55:02 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/24 08:07:57 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	char_printer(int bit, int client_pid)
 			signal_dest = 0;
 		}
 		else
+		{
 			write(1, &c, 1);
+			//write(1, "-", 1);
+		}
 		c = 0;
 		i = 7;
 	}
