@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/24 08:07:57 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/25 21:39:27 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,29 @@
 
 void	char_printer(int bit, int client_pid)
 {
-	static int				i = 7;
+	static int				i = 0;
 	static unsigned char	c = 0;
 	static int				signal_dest = 0;
 
 	if (!signal_dest)
 		signal_dest = client_pid;
-	if (i >= 0)
+	if (i <= 7)
 	{
 		c |= (bit << i);
-		i--;
+		i++;
+		kill(signal_dest, SIGUSR1);
 	}
-	if (i < 0)
+	if (i > 7)
 	{
-		if (!c)
+		if (c)
+			write(1, &c, 1);
+		else
 		{
 			kill(signal_dest, SIGUSR2);
 			signal_dest = 0;
 		}
-		else
-		{
-			write(1, &c, 1);
-			//write(1, "-", 1);
-		}
 		c = 0;
-		i = 7;
+		i = 0;
 	}
 }
 
@@ -60,7 +58,7 @@ int	main(void)
 	pid_t				pid;
 	int					fid;
 
-	fid = open("server_id", O_WRONLY);
+	fid = open("./server_id", O_WRONLY | O_CREAT, 0644);
 	pid = getpid();
 	ft_putnbr_fd(pid, 1);
 	ft_putnbr_fd(pid, fid);
