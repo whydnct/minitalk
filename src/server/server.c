@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/28 07:13:52 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/28 07:35:30 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(void)
 	pid_t				pid;
 	int					fid;
 
-	fid = open("./server_id", O_WRONLY | O_CREAT, 0644);
+	fid = open("./_id", O_WRONLY | O_CREAT, 0644);
 	pid = getpid();
 	ft_putnbr_fd(pid, 1);
 	ft_putnbr_fd(pid, fid);

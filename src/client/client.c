@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/28 07:22:37 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/28 07:46:25 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include <signal.h>
 #include "../../libft/src/libft.h"
 
-int signal_recieved;
-int srv_pid;
+sig_atomic_t volatile signal_recieved;
+int volatile srv_pid;
 
 void	send_char(char c, int srv_pid)
 {
