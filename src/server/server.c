@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/28 20:38:22 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:30:03 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,26 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-sig_atomic_t	flag;
+int		lag;
 
 void	char_printer(int bit, int client_pid)
 {
 	static int				i = 0;
 	static unsigned char	c = 0;
-	static int				signal_dest = 0;
 
-	if (!signal_dest)
-		signal_dest = client_pid;
 	if (i <= 7)
 	{
 		c |= (bit << i);
 		i++;
-		kill(signal_dest, SIGUSR1);
+		kill(client_pid, SIGUSR1);
+		usleep(lag);
 	}
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
-		{
-			kill(signal_dest, SIGUSR2);
-			signal_dest = 0;
-		}
+			kill(client_pid, SIGUSR2);
 		c = 0;
 		i = 0;
 	}
@@ -51,10 +46,7 @@ void	char_printer(int bit, int client_pid)
 void	action(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
-	flag = 0;
-	if (signal == SIGUSR1)
-		flag = 1;
-	char_printer(flag, info->si_pid);
+	char_printer(signal == SIGUSR1, info->si_pid);
 }
 
 void	set_signal_action(void)
@@ -69,18 +61,26 @@ void	set_signal_action(void)
 	sigaction(SIGUSR2, &sa, NULL);
 }
 
-int	main(void)
+void	write_pid_to_file(pid_t pid)
 {
-	pid_t				pid;
-	int					fid;
+	int	fid;
 
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
-	write(1, "\n", 1);
 	fid = open("./_id", O_WRONLY | O_CREAT, 0644);
 	ft_putnbr_fd(pid, fid);
 	close(fid);
-	set_signal_action;
+}
+
+int	main(int argc, char **argv)
+{
+	pid_t				pid;
+
+	(void)argc;
+	lag = ft_atoi(argv[1]);
+	pid = getpid();
+	ft_putnbr_fd(pid, 1);
+	write(1, "\n", 1);
+	write_pid_to_file(pid);
+	set_signal_action();
 	while (1)
 	{
 		pause();

@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/28 07:46:25 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:33:52 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include "../../libft/src/libft.h"
 
 sig_atomic_t volatile signal_recieved;
-int volatile srv_pid;
 
 void	send_char(char c, int srv_pid)
 {
-	int	i;
+	char	i;
 
 	i = 0;
 	while (i <= 7)
@@ -33,6 +32,7 @@ void	send_char(char c, int srv_pid)
 			kill(srv_pid, SIGUSR2);
 		i++;
 		c = c >> 1;
+		usleep(150);
 		while (!signal_recieved)
 			pause();
 	}
@@ -55,22 +55,32 @@ void	action(int signal, siginfo_t *info, void *context)
 	(void)info;
 	if (signal == SIGUSR1)
 		signal_recieved = 1;
+	if (signal == SIGUSR2)
+		write(1, "\nOK\n", 4);
+}
+
+void	set_signal_action(void)
+{
+	struct sigaction	sa;
+
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_sigaction = &action;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	struct sigaction	sa;
 	char				*str_to_pass;
+	pid_t				srv_pid;
 
 	signal_recieved = 0;
 	if (argc != 3)
 		return (0);
 	srv_pid = ft_atoi(argv[1]);
 	str_to_pass = argv[2];
-	sa.sa_sigaction = &action;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	set_signal_action();
 	send_str(str_to_pass, srv_pid);
 }
