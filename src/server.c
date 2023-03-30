@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 20:30:56 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/30 21:35:15 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //#include <fcntl.h>
 //#include <unistd.h>
 #include <signal.h>
-#include "../../libft/src/libft.h"
+#include "../libft/src/libft.h"
 
 void	char_printer(int bit, int client_pid)
 {

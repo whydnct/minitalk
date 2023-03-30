@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 20:26:24 by aperez-m         ###   ########.fr       */
+/*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
+/*   Updated: 2023/03/30 21:41:24 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,60 +15,35 @@
 //#include <fcntl.h>
 //#include <unistd.h>
 #include <signal.h>
-#include "../../libft/src/libft.h"
+#include "../libft/src/libft.h"
 
-sig_atomic_t volatile signal_recieved;
-
-void	send_char(char c, int srv_pid)
+void	char_printer(int bit, int client_pid)
 {
-	char	i;
+	static int				i = 0;
+	static unsigned char	c = 0;
 
-	i = 0;
-	while (i <= 7)
+	if (i <= 7)
 	{
-		signal_recieved = 0;
-		if (c & 1)
-			kill(srv_pid, SIGUSR1);
-		else
-			kill(srv_pid, SIGUSR2);
+		c |= (bit << i);
 		i++;
-		c = c >> 1;
-		while (!signal_recieved)
-			pause();
+		kill(client_pid, SIGUSR1);
 	}
-	signal_recieved = 0;
-}
-
-void	send_str(char *str, int srv_pid)
-{
-	while (*str)
+	if (i > 7)
 	{
-		send_char(*str, srv_pid);
-		str++;
+		if (c)
+			write(1, &c, 1);
+		else
+			kill(client_pid, SIGUSR2);
+		c = 0;
+		i = 0;
 	}
-	send_char('\0', srv_pid);
 }
 
 void	action(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
-	(void)info;
-	if (signal == SIGUSR1)
-		signal_recieved = 1;
-	if (signal == SIGUSR2)
-		write(1, "\nOK\n", 4);
+	char_printer(signal == SIGUSR1, info->si_pid);
 }
-
-//void	write_pid_to_file(void)
-//{
-//	int	fid;
-//	int	pid;
-//
-//	pid = getpid();
-//	fid = open("./server_id", O_WRONLY | O_CREAT, 0644);
-//	ft_putnbr_fd(pid, fid);
-//	close(fid);
-//}
 
 void	set_signal_action(void)
 {
@@ -84,16 +59,25 @@ void	set_signal_action(void)
 	sigaction(SIGUSR2, &sa, NULL);
 }
 
-int	main(int argc, char **argv)
-{
-	char				*str_to_pass;
-	pid_t				srv_pid;
+//void	write_pid_to_file(pid_t pid)
+//{
+//	int	fid;
+//
+//	fid = open("./_id", O_WRONLY | O_CREAT, 0644);
+//	ft_putnbr_fd(pid, fid);
+//	close(fid);
+//}
 
-	signal_recieved = 0;
-	if (argc != 3)
-		return (0);
-	srv_pid = ft_atoi(argv[1]);
-	str_to_pass = argv[2];
+int	main(void)
+{
+	pid_t				pid;
+
+	pid = getpid();
+	ft_putnbr_fd(pid, 1);
+	write(1, "\n", 1);
 	set_signal_action();
-	send_str(str_to_pass, srv_pid);
+	while (1)
+	{
+		pause();
+	}
 }

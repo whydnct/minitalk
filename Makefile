@@ -6,15 +6,16 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/03/24 08:13:46 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/03/30 21:41:00 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # VARIABLES
 
-NAME_SRV = server
-NAME_CLIENT = client
-BIN_PATH = bin
+SERVER = server
+CLIENT = client
+SERVER_BONUS = server_bonus
+CLIENT_BONUS = client_bonus
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -22,14 +23,16 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar
 ARFLAGS = rcs
 
-SRC_CLIENT_PATH = src/client
-SRC_SERVER_PATH = src/server
-SRC = main.c
+SRC = $(SERVER).c $(CLIENT).c
+SRC_BONUS = $(SERVER_BONUS) $(CLIENT_BONUS)
+SRC_PATH = src
+SRC_BONUS_PATH = src_bonus
 
 INCLUDE = $(SRC_PATH)/minitalk.h
 
 OBJ_PATH = obj
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
+OBJ_BONUS = $(addprefix $(OBJ_PATH)/, $(SRC_BONUS:.c=.o))
 
 # produces obj/moves_push.o obj/moves_reverse_rotate.o ...
 
@@ -55,14 +58,15 @@ NEW_LIB_A = $(LIB_PATH)/libminitalk.a
 # esto viene de intentar incorporar cambios en libft.
 
 
-all: $(NAME_SRV) $(NAME_CLIENT)
+all: $(SERVER) $(CLIENT)
+
+bonus: $(SERVER_BONUS) $(CLIENT_BONUS)
 
 re: fclean all
 
 clean:
 	@rm -rf $(OBJ_PATH)
-	@rm -f ./client
-	@rm -f ./server
+	@rm -f $(CLIENT) $(CLIENT_BONUS) $(SERVER) $(SERVER_BONUS)
 
 fclean:	clean
 	@rm -rf $(BIN_PATH)
@@ -77,20 +81,20 @@ $(BIN_PATH):
 $(LIB_PATH):
 	@mkdir -p $@
 
-#$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH) $(LIB_PATH)
-#	$(CC) $(CFLAGS) -c $^ -o $@
-
 $(LIB_A): $(LIB_PATH) 
 	@make -C ./libft
 	@cp libft/libft.a $(LIB_A)
 
-$(NAME_SRV): $(LIB_A) | $(BIN_PATH)
-	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/$(NAME_SRV).c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_SRV)
-	@$(CC) $(CFLAGS) $(SRC_SERVER_PATH)/$(NAME_SRV).c -L$(LIB_PATH) -lft -o $(NAME_SRV)
+$(SERVER): $(LIB_A)
+	@$(CC) $(CFLAGS) $(SRC_PATH)/$(SERVER).c -L$(LIB_PATH) -lft -o $@
 
-$(NAME_CLIENT): $(LIB_A) | $(BIN_PATH)
-	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/$(NAME_CLIENT).c -L$(LIB_PATH) -lft -o $(BIN_PATH)/$(NAME_CLIENT)
-	@$(CC) $(CFLAGS) $(SRC_CLIENT_PATH)/$(NAME_CLIENT).c -L$(LIB_PATH) -lft -o $(NAME_CLIENT)
+$(CLIENT): $(LIB_A)
+	@$(CC) $(CFLAGS) $(SRC_PATH)/$(CLIENT).c -L$(LIB_PATH) -lft -o $@
 
+$(SERVER_BONUS): $(LIB_A)
+	@$(CC) $(CFLAGS) $(SRC_BONUS_PATH)/$(SERVER_BONUS).c -L$(LIB_PATH) -lft -o $@
+
+$(CLIENT_BONUS): $(LIB_A)
+	@$(CC) $(CFLAGS) $(SRC_BONUS_PATH)/$(CLIENT_BONUS).c -L$(LIB_PATH) -lft -o $@
 
 .PHONY: clean fclean re $(NEW_LIB_A)
