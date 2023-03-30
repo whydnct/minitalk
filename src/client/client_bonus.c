@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 20:30:55 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:26:24 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	action(int signal, siginfo_t *info, void *context)
 	(void)info;
 	if (signal == SIGUSR1)
 		signal_recieved = 1;
+	if (signal == SIGUSR2)
+		write(1, "\nOK\n", 4);
 }
 
 //void	write_pid_to_file(void)
@@ -77,7 +79,9 @@ void	set_signal_action(void)
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main(int argc, char **argv)
