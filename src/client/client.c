@@ -6,13 +6,14 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/29 21:33:52 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:26:24 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _XOPEN_SOURCE 700
-#include <sys/types.h>
-#include <unistd.h>
+//#define _XOPEN_SOURCE 700
+//#include <sys/types.h>
+//#include <fcntl.h>
+//#include <unistd.h>
 #include <signal.h>
 #include "../../libft/src/libft.h"
 
@@ -32,7 +33,6 @@ void	send_char(char c, int srv_pid)
 			kill(srv_pid, SIGUSR2);
 		i++;
 		c = c >> 1;
-		usleep(150);
 		while (!signal_recieved)
 			pause();
 	}
@@ -59,6 +59,17 @@ void	action(int signal, siginfo_t *info, void *context)
 		write(1, "\nOK\n", 4);
 }
 
+//void	write_pid_to_file(void)
+//{
+//	int	fid;
+//	int	pid;
+//
+//	pid = getpid();
+//	fid = open("./server_id", O_WRONLY | O_CREAT, 0644);
+//	ft_putnbr_fd(pid, fid);
+//	close(fid);
+//}
+
 void	set_signal_action(void)
 {
 	struct sigaction	sa;
@@ -67,6 +78,8 @@ void	set_signal_action(void)
 	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 }

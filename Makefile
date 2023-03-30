@@ -17,7 +17,7 @@ NAME_CLIENT = client
 BIN_PATH = bin
 
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 
 AR = ar
 ARFLAGS = rcs
