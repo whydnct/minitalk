@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/01 15:29:10 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:49:51 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,12 @@ void	set_signal_action(void)
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
-	//sigemptyset(&sa.sa_mask);
+	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 }
-
-//void	write_pid_to_file(pid_t pid)
-//{
-//	int	fid;
-//
-//	fid = open("./_id", O_WRONLY | O_CREAT, 0644);
-//	ft_putnbr_fd(pid, fid);
-//	close(fid);
-//}
 
 int	main(void)
 {
@@ -74,7 +65,5 @@ int	main(void)
 	write(1, "\n", 1);
 	set_signal_action();
 	while (1)
-	{
 		pause();
-	}
 }
