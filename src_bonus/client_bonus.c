@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 21:36:21 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 12:23:50 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	send_char(char c, int srv_pid)
 		i++;
 		c = c >> 1;
 		while (!signal_recieved)
-			pause();
+			usleep(100);
 	}
 	signal_recieved = 0;
 }
