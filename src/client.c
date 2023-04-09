@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 21:36:26 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 18:49:13 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <signal.h>
 #include "../libft/src/libft.h"
 
-sig_atomic_t volatile signal_recieved;
+sig_atomic_t volatile	g_signal_recieved;
 
 void	send_char(char c, int srv_pid)
 {
@@ -26,17 +26,17 @@ void	send_char(char c, int srv_pid)
 	i = 0;
 	while (i <= 7)
 	{
-		signal_recieved = 0;
+		g_signal_recieved = 0;
 		if (c & 1)
 			kill(srv_pid, SIGUSR1);
 		else
 			kill(srv_pid, SIGUSR2);
 		i++;
 		c = c >> 1;
-		while (!signal_recieved)
-			pause();
+		while (!g_signal_recieved)
+			usleep(50);
 	}
-	signal_recieved = 0;
+	g_signal_recieved = 0;
 }
 
 void	send_str(char *str, int srv_pid)
@@ -54,19 +54,10 @@ void	action(int signal, siginfo_t *info, void *context)
 	(void)context;
 	(void)info;
 	if (signal == SIGUSR1)
-		signal_recieved = 1;
+		g_signal_recieved = 1;
+	if (signal == SIGUSR2)
+		write(1, "\nOK\n", 4);
 }
-
-//void	write_pid_to_file(void)
-//{
-//	int	fid;
-//	int	pid;
-//
-//	pid = getpid();
-//	fid = open("./server_id", O_WRONLY | O_CREAT, 0644);
-//	ft_putnbr_fd(pid, fid);
-//	close(fid);
-//}
 
 void	set_signal_action(void)
 {
@@ -76,8 +67,8 @@ void	set_signal_action(void)
 	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main(int argc, char **argv)
@@ -85,7 +76,7 @@ int	main(int argc, char **argv)
 	char				*str_to_pass;
 	pid_t				srv_pid;
 
-	signal_recieved = 0;
+	g_signal_recieved = 0;
 	if (argc != 3)
 		return (0);
 	srv_pid = ft_atoi(argv[1]);

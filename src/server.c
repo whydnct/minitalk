@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/01 15:28:26 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 18:49:10 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	char_printer(int bit, int client_pid)
 	{
 		if (c)
 			write(1, &c, 1);
+		else
+			kill(client_pid, SIGUSR2);
 		c = 0;
 		i = 0;
 	}
@@ -54,15 +56,6 @@ void	set_signal_action(void)
 	sigaction(SIGUSR2, &sa, NULL);
 }
 
-//void	write_pid_to_file(pid_t pid)
-//{
-//	int	fid;
-//
-//	fid = open("./_id", O_WRONLY | O_CREAT, 0644);
-//	ft_putnbr_fd(pid, fid);
-//	close(fid);
-//}
-
 int	main(void)
 {
 	pid_t				pid;
@@ -72,7 +65,5 @@ int	main(void)
 	write(1, "\n", 1);
 	set_signal_action();
 	while (1)
-	{
 		pause();
-	}
 }

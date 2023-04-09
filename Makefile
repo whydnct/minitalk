@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/03/30 21:41:00 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/09 19:01:42 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,6 @@
 
 SERVER = server
 CLIENT = client
-SERVER_BONUS = server_bonus
-CLIENT_BONUS = client_bonus
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -24,22 +22,18 @@ AR = ar
 ARFLAGS = rcs
 
 SRC = $(SERVER).c $(CLIENT).c
-SRC_BONUS = $(SERVER_BONUS) $(CLIENT_BONUS)
 SRC_PATH = src
-SRC_BONUS_PATH = src_bonus
 
 INCLUDE = $(SRC_PATH)/minitalk.h
 
 OBJ_PATH = obj
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
-OBJ_BONUS = $(addprefix $(OBJ_PATH)/, $(SRC_BONUS:.c=.o))
 
 # produces obj/moves_push.o obj/moves_reverse_rotate.o ...
 
 LIB_PATH = lib
 LIB_H = $(LIB_PATH)/libft.h
 LIB_A = $(LIB_PATH)/libft.a
-NEW_LIB_A = $(LIB_PATH)/libminitalk.a
 
 # RULES
 
@@ -60,17 +54,15 @@ NEW_LIB_A = $(LIB_PATH)/libminitalk.a
 
 all: $(SERVER) $(CLIENT)
 
-bonus: $(SERVER_BONUS) $(CLIENT_BONUS)
+bonus: $(SERVER) $(CLIENT)
 
 re: fclean all
 
 clean:
-	@rm -rf $(OBJ_PATH)
-	@rm -f $(CLIENT) $(CLIENT_BONUS) $(SERVER) $(SERVER_BONUS)
+	@rm -rf $(CLIENT) $(SERVER)
 
 fclean:	clean
-	@rm -rf $(BIN_PATH)
-	@rm -rf *.dSYM
+	@rm -rf $(BIN_PATH) $(OBJ_PATH)
 
 $(OBJ_PATH):
 	@mkdir -p $@
@@ -91,10 +83,4 @@ $(SERVER): $(LIB_A)
 $(CLIENT): $(LIB_A)
 	@$(CC) $(CFLAGS) $(SRC_PATH)/$(CLIENT).c -L$(LIB_PATH) -lft -o $@
 
-$(SERVER_BONUS): $(LIB_A)
-	@$(CC) $(CFLAGS) $(SRC_BONUS_PATH)/$(SERVER_BONUS).c -L$(LIB_PATH) -lft -o $@
-
-$(CLIENT_BONUS): $(LIB_A)
-	@$(CC) $(CFLAGS) $(SRC_BONUS_PATH)/$(CLIENT_BONUS).c -L$(LIB_PATH) -lft -o $@
-
-.PHONY: clean fclean re $(NEW_LIB_A)
+.PHONY: clean fclean re
