@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/03/30 21:41:24 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:29:10 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,9 @@ void	char_printer(int bit, int client_pid)
 	static int				i = 0;
 	static unsigned char	c = 0;
 
-	if (i <= 7)
-	{
-		c |= (bit << i);
-		i++;
-		kill(client_pid, SIGUSR1);
-	}
+	c |= (bit << i);
+	i++;
+	kill(client_pid, SIGUSR1);
 	if (i > 7)
 	{
 		if (c)
@@ -52,7 +49,7 @@ void	set_signal_action(void)
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
+	//sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
