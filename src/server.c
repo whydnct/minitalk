@@ -6,14 +6,10 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/09 18:49:10 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 19:30:54 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#define _XOPEN_SOURCE 700
-//#include <sys/types.h>
-//#include <fcntl.h>
-//#include <unistd.h>
 #include <signal.h>
 #include "../libft/src/libft.h"
 

@@ -6,14 +6,10 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/09 18:49:13 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/09 19:30:51 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#define _XOPEN_SOURCE 700
-//#include <sys/types.h>
-//#include <fcntl.h>
-//#include <unistd.h>
 #include <signal.h>
 #include "../libft/src/libft.h"
 
@@ -34,7 +30,7 @@ void	send_char(char c, int srv_pid)
 		i++;
 		c = c >> 1;
 		while (!g_signal_recieved)
-			usleep(50);
+			usleep(10);
 	}
 	g_signal_recieved = 0;
 }
