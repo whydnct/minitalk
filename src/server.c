@@ -6,12 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/09 19:30:54 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/12 20:07:51 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include "../libft/src/libft.h"
+#include "minitalk.h"
 
 void	char_printer(int bit, int client_pid)
 {
@@ -20,13 +19,17 @@ void	char_printer(int bit, int client_pid)
 
 	c |= (bit << i);
 	i++;
-	kill(client_pid, SIGUSR1);
+	if (kill(client_pid, SIGUSR1))
+		write(2, "error sending SIGUSR1 to client\n", 32);
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
-			kill(client_pid, SIGUSR2);
+		{
+			if (kill(client_pid, SIGUSR2))
+				write(2, "error sending SIGUSR2 to client\n", 32);
+		}
 		c = 0;
 		i = 0;
 	}

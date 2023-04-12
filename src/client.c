@@ -6,12 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/09 19:30:51 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/12 20:19:55 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include "../libft/src/libft.h"
+#include "minitalk.h"
 
 sig_atomic_t volatile	g_signal_recieved;
 
