@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/12 21:30:29 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/12 21:36:55 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ ARFLAGS =   rcs
 SRC_DIR =           ./src/
 OBJ_DIR =           ./obj/
 LIBFT_DIR =         ./libft/
-INC =               ./include/
+CPPFLAGS =          -I ./include/
 
 
 #files
@@ -46,7 +46,7 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
-	@$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 
 $(LIBFT):
