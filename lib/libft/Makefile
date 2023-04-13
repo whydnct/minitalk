@@ -6,58 +6,82 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/13 13:09:09 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/13 11:38:03 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME_CLIENT := 	client
-NAME_SERVER	:=	server
+NAME        := libft.a
 
 #------------------------------------------------#
 #   INGREDIENTS                                  #
 #------------------------------------------------#
-# LIBS        libraries to be used
-# LIBS_TARGET libraries to be built
+# SRC_DIR   source directory
+# SRCS      source files
 #
-# INCS        header file locations
+# BUILD_DIR object directory
+# OBJS      object files
+# DEPS      dependency files
 #
-# SRC_DIR     source directory
-# SRCS        source files
-#
-# BUILD_DIR   build directory
-# OBJS        object files
-# DEPS        dependency files
-#
-# CC          compiler
-# CFLAGS      compiler flags
-# CPPFLAGS    preprocessor flags
-# LDFLAGS     linker flags
-# LDLIBS      libraries name
-
-LIBS        := libft  
-LIBS_TARGET := \
-	lib/libft/libft.a 
-
-INCS        := include    \
-	lib/libft/include
+# CC        compiler
+# CFLAGS    compiler flags
+# CPPFLAGS  preprocessor flags
 
 SRC_DIR     := src
-SRCS_SERVER := server.c
-SRCS_CLIENT := client.c
-SRCS_SERVER := (SRCS_SERVER:%=$(SRC_DIR)/%)
-SRCS_CLIENT := (SRCS_CLIENT:%=$(SRC_DIR)/%)
+SRCS        :=  \
+	ft_atoi.c \
+    ft_bzero.c \
+    ft_isascii.c \
+    ft_isalnum.c \
+    ft_isalpha.c \
+    ft_isdigit.c \
+    ft_isprint.c \
+    ft_memcmp.c \
+    ft_memcpy.c \
+    ft_memmove.c \
+    ft_memset.c \
+    ft_strchr.c \
+    ft_strlcat.c \
+    ft_strlcpy.c \
+    ft_strlen.c \
+    ft_strncmp.c \
+    ft_strnstr.c \
+    ft_strrchr.c \
+    ft_tolower.c \
+    ft_toupper.c \
+    ft_calloc.c \
+    ft_memchr.c \
+    ft_strdup.c \
+    ft_substr.c \
+    ft_strjoin.c \
+    ft_strtrim.c \
+    ft_split.c \
+    ft_itoa.c \
+    ft_strmapi.c \
+    ft_striteri.c \
+    ft_putchar_fd.c \
+    ft_putstr_fd.c \
+    ft_putendl_fd.c \
+    bonus/ft_lstnew_bonus.c \
+    bonus/ft_lstadd_front_bonus.c \
+    bonus/ft_lstsize_bonus.c \
+    bonus/ft_lstlast_bonus.c \
+    bonus/ft_lstadd_back_bonus.c \
+    bonus/ft_lstdelone_bonus.c \
+    bonus/ft_lstclear_bonus.c \
+    bonus/ft_lstiter_bonus.c \
+    bonus/ft_lstmap_bonus.c
+
+SRCS        := $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR   := .build
-OBJS_SERVER := $(SRCS_SERVER:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-DEPS_SERVER := $(OBJS_SERVER:.o=.d)
-OBJS_CLIENT := $(SRCS_CLIENT:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-DEPS_CLIENT := $(OBJS_CLIENT:.o=.d)
+OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+DEPS        := $(OBJS:.o=.d)
 
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
-CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS     := $(addprefix -L,$(dir $(LIBS_TARGET)))
-LDLIBS      := $(addprefix -l,$(LIBS))
+CPPFLAGS    := -MMD -MP -I include
+AR          := ar
+ARFLAGS     := -r -c -s
 
 #------------------------------------------------#
 #   UTENSILS                                     #
@@ -67,56 +91,41 @@ LDLIBS      := $(addprefix -l,$(LIBS))
 # DIR_DUP   duplicate directory tree
 
 RM          := rm -f
-MAKEFLAGS   += --silent --no-print-directory
+MAKEFLAGS   += --no-print-directory
 DIR_DUP     = mkdir -p $(@D)
 
 #------------------------------------------------#
 #   RECIPES                                      #
 #------------------------------------------------#
 # all       default goal
-# $(NAME)   link .o -> archive
-# $(LIBS)   build libraries
+# $(NAME)   link .o -> library
 # %.o       compilation .c -> .o
 # clean     remove .o
 # fclean    remove .o + binary
 # re        remake default goal
-# run       run the program
-# info      print the default goal recipe
 
-all: $(NAME_CLIENT) $(NAME_SERVER)
+all: $(NAME)
 
-$(NAME_CLIENT): $(OBJS_CLIENT) $(LIBS_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
-	$(info CREATED $(NAME_CLIENT))
-
-$(NAME_SERVER): $(OBJS_SERVER) $(LIBS_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
-	$(info CREATED $(NAME_SERVER))
-
-$(LIBS_TARGET):
-	$(MAKE) -C $(@D)
+$(NAME): $(OBJS)
+	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+	$(info CREATED $(NAME))
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 	$(info CREATED $@)
 
--include $(DEPS_SERVER) $(DEPS_CLIENT)
+-include $(DEPS)
 
 clean:
-	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f clean; done
-	$(RM) $(OBJS_SERVER) $(OBJS_CLIENT) $(DEPS_SERVER) $(DEPS_CLIENT)
+	$(RM) $(OBJS) $(DEPS)
 
 fclean: clean
-	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f fclean; done
-	$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+	$(RM) $(NAME)
 
 re:
 	$(MAKE) fclean
 	$(MAKE) all
-
-info-%:
-	$(MAKE) --dry-run --always-make $* | grep -v "info"
 
 #------------------------------------------------#
 #   SPEC                                         #
