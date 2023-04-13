@@ -6,12 +6,12 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/13 13:09:09 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/13 15:18:02 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME_CLIENT := 	client
-NAME_SERVER	:=	server
+NAME_CLIENT := client
+NAME_SERVER	:= server
 
 #------------------------------------------------#
 #   INGREDIENTS                                  #
@@ -34,18 +34,17 @@ NAME_SERVER	:=	server
 # LDFLAGS     linker flags
 # LDLIBS      libraries name
 
-LIBS        := libft  
-LIBS_TARGET := \
-	lib/libft/libft.a 
+LIBS        := ft  
+LIBS_TARGET := lib/libft/libft.a 
 
-INCS        := include    \
+INCS        := include \
 	lib/libft/include
 
 SRC_DIR     := src
 SRCS_SERVER := server.c
 SRCS_CLIENT := client.c
-SRCS_SERVER := (SRCS_SERVER:%=$(SRC_DIR)/%)
-SRCS_CLIENT := (SRCS_CLIENT:%=$(SRC_DIR)/%)
+SRCS_SERVER := $(SRCS_SERVER:%=$(SRC_DIR)/%)
+SRCS_CLIENT := $(SRCS_CLIENT:%=$(SRC_DIR)/%)
 
 BUILD_DIR   := .build
 OBJS_SERVER := $(SRCS_SERVER:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)

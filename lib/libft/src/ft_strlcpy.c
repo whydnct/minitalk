@@ -6,11 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 19:59:23 by aperez-m          #+#    #+#             */
-/*   Updated: 2022/12/04 08:50:36 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:36:29 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

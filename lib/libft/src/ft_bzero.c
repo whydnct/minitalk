@@ -6,11 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 23:01:08 by aperez-m          #+#    #+#             */
-/*   Updated: 2022/11/28 23:05:26 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:34:33 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft.h"
 
 void	ft_bzero(void *s, size_t n)
 {

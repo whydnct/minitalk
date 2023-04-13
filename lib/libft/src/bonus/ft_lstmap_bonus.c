@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 17:05:34 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/01/16 19:34:50 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:38:01 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ cada nodo. Crea una lista resultante de la aplicación correcta
 y sucesiva de la función ’f’ sobre cada nodo. La función ’del’
 se utiliza para eliminar el contenido de un nodo, si hace falta.*/
 
-#include "libft.h"
+#include "ft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {

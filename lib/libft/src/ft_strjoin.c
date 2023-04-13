@@ -6,11 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 09:23:23 by aperez-m          #+#    #+#             */
-/*   Updated: 2022/12/04 15:45:15 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:36:21 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

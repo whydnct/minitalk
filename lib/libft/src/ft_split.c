@@ -6,11 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 18:53:39 by aperez-m          #+#    #+#             */
-/*   Updated: 2022/12/06 20:22:14 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:36:05 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft.h"
 
 static	int	get_w_len(char const *s, char c)
 {

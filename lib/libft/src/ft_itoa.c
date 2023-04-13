@@ -6,11 +6,11 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 19:39:39 by aperez-m          #+#    #+#             */
-/*   Updated: 2022/12/07 15:14:37 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:34:53 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft.h"
 
 static int	get_nbr_size(int i)
 {
