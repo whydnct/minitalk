@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/13 11:38:03 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/14 10:53:02 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRCS        :=  \
     ft_strmapi.c \
     ft_striteri.c \
     ft_putchar_fd.c \
+    ft_putnbr_fd.c \
     ft_putstr_fd.c \
     ft_putendl_fd.c \
     bonus/ft_lstnew_bonus.c \
