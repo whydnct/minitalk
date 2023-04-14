@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/12 20:19:55 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:41:14 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	send_str(char *str, int srv_pid)
 		str++;
 	}
 	send_char('\0', srv_pid);
+	usleep(50);
 }
 
 void	action(int signal, siginfo_t *info, void *context)
