@@ -14,7 +14,7 @@
 
 sig_atomic_t volatile	g_signal_recieved;
 
-void	send_char(char c, int srv_pid)
+void	send_char(char c, pid_t srv_pid)
 {
 	char	i;
 
@@ -40,7 +40,7 @@ void	send_char(char c, int srv_pid)
 	g_signal_recieved = 0;
 }
 
-void	send_str(char *str, int srv_pid)
+void	send_str(char *str, pid_t srv_pid)
 {
 	while (*str)
 	{
