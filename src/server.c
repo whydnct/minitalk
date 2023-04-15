@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/14 16:21:42 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/15 07:39:26 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	char_printer(int bit, int client_pid)
 
 	c |= (bit << i);
 	i++;
-	while (kill(client_pid, SIGUSR1))
-		write(2, "error sending SIGUSR1 to client\n", 32);
+	while (kill(client_pid, SIGUSR1) == -1)
+		write(2, "error sending SIGUSR1 to client\n", 33);
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
 		{
-			while (kill(client_pid, SIGUSR2))
-				write(2, "error sending SIGUSR2 to client\n", 32);
+			while (kill(client_pid, SIGUSR2) == -1)
+				write(2, "error sending SIGUSR2 to client\n", 33);
 		}
 		c = 0;
 		i = 0;

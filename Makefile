@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/13 15:18:02 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/15 07:52:54 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,11 +85,11 @@ DIR_DUP     = mkdir -p $(@D)
 all: $(NAME_CLIENT) $(NAME_SERVER)
 
 $(NAME_CLIENT): $(OBJS_CLIENT) $(LIBS_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
+	$(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT).out
 	$(info CREATED $(NAME_CLIENT))
 
 $(NAME_SERVER): $(OBJS_SERVER) $(LIBS_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
+	$(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER).out
 	$(info CREATED $(NAME_SERVER))
 
 $(LIBS_TARGET):
