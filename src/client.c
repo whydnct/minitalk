@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/15 07:39:29 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/16 09:48:39 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	send_str(char *str, pid_t srv_pid)
 		str++;
 	}
 	send_char('\0', srv_pid);
-	usleep(50);
+	pause();
 }
 
 void	action(int signal, siginfo_t *info, void *context)
@@ -58,7 +58,10 @@ void	action(int signal, siginfo_t *info, void *context)
 	if (signal == SIGUSR1)
 		g_signal_recieved = 1;
 	if (signal == SIGUSR2)
+	{
 		write(1, "\nOK\n", 4);
+		exit(1);
+	}
 }
 
 void	set_signal_action(void)
