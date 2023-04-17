@@ -3,42 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/15 07:39:26 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:34:46 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	char_printer(int bit, int client_pid)
+void	action(int signal, siginfo_t *info, void *context)
 {
 	static int				i = 0;
 	static unsigned char	c = 0;
 
-	c |= (bit << i);
+	(void)context;
+	if (signal == SIGUSR1)
+		c |= (1 << i);
 	i++;
-	while (kill(client_pid, SIGUSR1) == -1)
-		write(2, "error sending SIGUSR1 to client\n", 33);
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
 		{
-			while (kill(client_pid, SIGUSR2) == -1)
+			while (kill(info->si_pid, SIGUSR2) == -1)
 				write(2, "error sending SIGUSR2 to client\n", 33);
 		}
 		c = 0;
 		i = 0;
 	}
-}
-
-void	action(int signal, siginfo_t *info, void *context)
-{
-	(void)context;
-	char_printer(signal == SIGUSR1, info->si_pid);
 }
 
 void	set_signal_action(void)

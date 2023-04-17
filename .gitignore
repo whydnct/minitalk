@@ -45,6 +45,7 @@ server_bonus
 *.su
 *.idb
 *.pdb
+test
 
 # Kernel Module Compile Results
 *.mod*
