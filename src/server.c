@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/17 19:34:46 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:42:10 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	action(int signal, siginfo_t *info, void *context)
 	static unsigned char	c = 0;
 
 	(void)context;
+	(void)info;
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i++;
@@ -25,11 +26,6 @@ void	action(int signal, siginfo_t *info, void *context)
 	{
 		if (c)
 			write(1, &c, 1);
-		else
-		{
-			while (kill(info->si_pid, SIGUSR2) == -1)
-				write(2, "error sending SIGUSR2 to client\n", 33);
-		}
 		c = 0;
 		i = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/17 19:33:50 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:41:19 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,6 @@ void	send_str(char *str, pid_t srv_pid)
 		str++;
 	}
 	send_char('\0', srv_pid);
-	pause();
-}
-
-void	action(int signal, siginfo_t *info, void *context)
-{
-	(void)context;
-	(void)info;
-	if (signal == SIGUSR2)
-	{
-		write(1, "\nOK\n", 4);
-		exit(0);
-	}
-}
-
-void	set_signal_action(void)
-{
-	struct sigaction	sa;
-
-	ft_bzero(&sa, sizeof(sa));
-	sa.sa_sigaction = &action;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main(int argc, char **argv)
@@ -77,6 +54,5 @@ int	main(int argc, char **argv)
 		return (0);
 	srv_pid = ft_atoi(argv[1]);
 	str_to_pass = argv[2];
-	set_signal_action();
 	send_str(str_to_pass, srv_pid);
 }
