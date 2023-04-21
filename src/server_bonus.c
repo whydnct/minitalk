@@ -12,30 +12,37 @@
 
 #include "minitalk.h"
 
+void	safe_send_signal(pid_t pid, int sig, int runs)
+{
+	int i;
+
+	i = 0;
+	while (kill(pid, sig) == -1 && ++i < runs)
+	{
+		if (sig == SIGUSR1)
+			write(2, "error sending SIGUSR1 to client\n", 33);
+		else
+			write(2, "error sending SIGUSR2 to client\n", 33);
+		usleep(10);
+	}
+	if (i == runs)
+		exit(1);
+}
+
 void	char_printer(int bit, int client_pid)
 {
 	static int				i = 0;
 	static unsigned char	c = 0;
-	int						safe_stop;
 
-	safe_stop = 0;
 	c |= (bit << i);
 	i++;
-	while (kill(client_pid, SIGUSR1) == -1 && ++safe_stop < 10)
-		write(2, "error sending SIGUSR1 to client\n", 33);
-	if (safe_stop == 10)
-		exit(1);
+	safe_send_signal(client_pid, SIGUSR1, 10);
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
-		{
-			while (kill(client_pid, SIGUSR2) == -1 && ++safe_stop < 20)
-				write(2, "error sending SIGUSR2 to client\n", 33);
-			if (safe_stop == 20)
-				exit(1);
-		}
+			safe_send_signal(client_pid, SIGUSR2, 10);
 		c = 0;
 		i = 0;
 	}
@@ -54,7 +61,9 @@ void	set_signal_action(void)
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
 	sa.sa_flags = SA_SIGINFO;
-	sigfillset(&sa.sa_mask);
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 }
