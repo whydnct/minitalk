@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/21 08:01:20 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/21 08:05:46 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	char_printer(int bit, int client_pid)
 {
 	static int				i = 0;
 	static unsigned char	c = 0;
-	int						safe_stop = 0;
+	int						safe_stop;
 
+	safe_stop = 0;
 	c |= (bit << i);
 	i++;
 	while (kill(client_pid, SIGUSR1) == -1 && ++safe_stop < 10)

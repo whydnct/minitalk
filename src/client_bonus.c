@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/16 09:48:39 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/21 08:13:24 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,33 @@ sig_atomic_t volatile	g_signal_recieved;
 void	send_char(char c, pid_t srv_pid)
 {
 	char	i;
+	int		safe_stop;
 
 	i = 0;
 	while (i <= 7)
 	{
+		safe_stop = 0;
 		g_signal_recieved = 0;
 		if (c & 1)
 		{
-			while (kill(srv_pid, SIGUSR1) == -1)
+			while (kill(srv_pid, SIGUSR1) == -1 && ++safe_stop < 10)
 				usleep(1);
+			if (safe_stop == 10)
+				exit(1);
 		}
 		else
 		{
-			while (kill(srv_pid, SIGUSR2) == -1)
-				usleep(1);
+			while (kill(srv_pid, SIGUSR2) == -1 && ++safe_stop < 20)
+				usleep(10);
+			if (safe_stop == 20)
+				exit(1);
 		}
 		i++;
 		c = c >> 1;
-		while (!g_signal_recieved)
+		while (!g_signal_recieved && ++safe_stop < 100)
 			usleep(10);
+		if (safe_stop == 100)
+			exit(1);
 	}
 	g_signal_recieved = 0;
 }
