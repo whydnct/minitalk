@@ -6,7 +6,7 @@
 #    By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 13:31:05 by aperez-m          #+#    #+#              #
-#    Updated: 2023/04/16 10:18:55 by aperez-m         ###   ########.fr        #
+#    Updated: 2023/04/21 19:07:20 by aperez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ INCS        := include \
 SRC_DIR     	:= src
 SRCS_SERVER 	:= server.c
 SRCS_CLIENT 	:= client.c
-SRCS_SERVER_B	:= server_bonus.c
-SRCS_CLIENT_B 	:= client_bonus.c
+SRCS_SERVER_B	:= server_bonus.c safe_send_signal.c
+SRCS_CLIENT_B 	:= client_bonus.c safe_send_signal.c
 SRCS_SERVER 	:= $(SRCS_SERVER:%=$(SRC_DIR)/%)
 SRCS_CLIENT 	:= $(SRCS_CLIENT:%=$(SRC_DIR)/%)
 SRCS_SERVER_B 	:= $(SRCS_SERVER_B:%=$(SRC_DIR)/%)

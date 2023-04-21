@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   safe_send_signal.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 20:01:04 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/21 19:06:08 by aperez-m         ###   ########.fr       */
+/*   Created: 2023/04/21 19:04:50 by aperez-m          #+#    #+#             */
+/*   Updated: 2023/04/21 19:09:22 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "minitalk.h"
 
-# define _XOPEN_SOURCE 500
-# define _POSIX_C_SOURCE 200112L
+void	safe_send_signal(pid_t pid, int sig, int runs)
+{
+	int	i;
 
-# include <signal.h>
-# include <unistd.h>
-
-# include "ft.h"
-
-void	safe_send_signal(pid_t pid, int sig, int runs);
-#endif
+	i = 0;
+	while (kill(pid, sig) == -1 && ++i < runs)
+	{
+		if (sig == SIGUSR1)
+			write(2, "error sending SIGUSR1 to client\n", 33);
+		else
+			write(2, "error sending SIGUSR2 to client\n", 33);
+		usleep(10);
+	}
+	if (i == runs)
+		exit(1);
+}
