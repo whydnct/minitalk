@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 16:42:11 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:56:11 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	char_printer(int bit, int client_pid)
 
 	c |= (bit << i);
 	i++;
-	safe_send_signal(client_pid, SIGUSR1, USLEEP_SERVER);
-	if (i > 7)
+	safe_send_signal(client_pid, SIGUSR1, SEND_RETRIES);
+	if (i == 8)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
-			safe_send_signal(client_pid, SIGUSR2, USLEEP_SERVER);
+			safe_send_signal(client_pid, SIGUSR2,SEND_RETRIES);
 		c = 0;
 		i = 0;
 	}
@@ -43,7 +43,7 @@ void	set_signal_action(void)
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);

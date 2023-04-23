@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 16:41:15 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:58:14 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	send_char(char c, pid_t srv_pid)
 		safe_stop = 0;
 		g_signal_recieved = 0;
 		if (c & 1)
-			safe_send_signal(srv_pid, SIGUSR1, USLEEP_CLIENT);
+			safe_send_signal(srv_pid, SIGUSR1,SEND_RETRIES);
 		else
-			safe_send_signal(srv_pid, SIGUSR2, USLEEP_CLIENT);
+			safe_send_signal(srv_pid, SIGUSR2,SEND_RETRIES);
 		i++;
 		c = c >> 1;
-		while (!g_signal_recieved && ++safe_stop < 100)
-			usleep(USLEEP_CLIENT);
-		if (safe_stop == 100)
+		while (!g_signal_recieved && ++safe_stop < RUNS)
+			usleep(10);
+		if (safe_stop == RUNS)
 			exit(1);
 	}
 	g_signal_recieved = 0;
@@ -40,11 +40,8 @@ void	send_char(char c, pid_t srv_pid)
 
 void	send_str(char *str, pid_t srv_pid)
 {
-	while (*str)
-	{
-		send_char(*str, srv_pid);
-		str++;
-	}
+	while (*str++)
+		send_char(*(str - 1), srv_pid);
 	send_char('\0', srv_pid);
 	pause();
 }
