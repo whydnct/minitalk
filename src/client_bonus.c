@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/17 19:33:50 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 10:17:01 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void	action(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
-	if (signal == SIGUSR2)
-	{
-		write(1, "\nOK\n", 4);
-		exit(0);
-	}
+	write(1, "\nOK\n", 4);
+	exit(0);
 }
 
 void	set_signal_action(void)
