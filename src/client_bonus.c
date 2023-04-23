@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 16:58:14 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 18:48:32 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	send_char(char c, pid_t srv_pid)
 		safe_stop = 0;
 		g_signal_recieved = 0;
 		if (c & 1)
-			safe_send_signal(srv_pid, SIGUSR1,SEND_RETRIES);
+			safe_send_signal(srv_pid, SIGUSR1, SEND_RETRIES);
 		else
-			safe_send_signal(srv_pid, SIGUSR2,SEND_RETRIES);
+			safe_send_signal(srv_pid, SIGUSR2, SEND_RETRIES);
 		i++;
 		c = c >> 1;
 		while (!g_signal_recieved && ++safe_stop < RUNS)
@@ -65,7 +65,7 @@ void	set_signal_action(void)
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);

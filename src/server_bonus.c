@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 16:56:11 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 18:56:35 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	char_printer(int bit, int client_pid)
 		if (c)
 			write(1, &c, 1);
 		else
-			safe_send_signal(client_pid, SIGUSR2,SEND_RETRIES);
+			safe_send_signal(client_pid, SIGUSR2, SEND_RETRIES);
 		c = 0;
 		i = 0;
 	}
