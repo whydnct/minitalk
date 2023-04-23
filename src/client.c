@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 12:13:49 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:18:14 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	send_char(char c, pid_t srv_pid)
 			safe_send_signal(srv_pid, SIGUSR2, 50);
 		i++;
 		c = c >> 1;
-		usleep(400);
+		usleep(100);
 	}
 }
 

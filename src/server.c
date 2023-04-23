@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: aperez-m <aperez-m@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/23 12:19:57 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:19:02 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	action(int signal, siginfo_t *info, void *ucontext)
 {
 	static char				i = 0;
 	static unsigned char	c = 0;
+
 	(void)ucontext;
 	(void)info;
-
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i++;
