@@ -56,4 +56,4 @@ Mkfile.old
 dkms.conf
 
 #aux
-*jbertin
+*jbertin.c
