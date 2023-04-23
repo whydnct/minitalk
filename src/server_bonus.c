@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/21 19:06:38 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:42:11 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	char_printer(int bit, int client_pid)
 
 	c |= (bit << i);
 	i++;
-	safe_send_signal(client_pid, SIGUSR1, 10);
+	safe_send_signal(client_pid, SIGUSR1, USLEEP_SERVER);
 	if (i > 7)
 	{
 		if (c)
 			write(1, &c, 1);
 		else
-			safe_send_signal(client_pid, SIGUSR2, 10);
+			safe_send_signal(client_pid, SIGUSR2, USLEEP_SERVER);
 		c = 0;
 		i = 0;
 	}

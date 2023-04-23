@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:01:04 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/21 19:06:08 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:39:37 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 
 # include "ft.h"
 
+# define USLEEP_CLIENT 10
+# define USLEEP_SERVER 10
 void	safe_send_signal(pid_t pid, int sig, int runs);
 #endif

@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/21 19:06:28 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:41:15 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ void	send_char(char c, pid_t srv_pid)
 	int		safe_stop;
 
 	i = 0;
-	while (i <= 7)
+	while (i < 8)
 	{
 		safe_stop = 0;
 		g_signal_recieved = 0;
 		if (c & 1)
-			safe_send_signal(srv_pid, SIGUSR1, 10);
+			safe_send_signal(srv_pid, SIGUSR1, USLEEP_CLIENT);
 		else
-			safe_send_signal(srv_pid, SIGUSR2, 10);
+			safe_send_signal(srv_pid, SIGUSR2, USLEEP_CLIENT);
 		i++;
 		c = c >> 1;
 		while (!g_signal_recieved && ++safe_stop < 100)
-			usleep(10);
+			usleep(USLEEP_CLIENT);
 		if (safe_stop == 100)
 			exit(1);
 	}
