@@ -6,7 +6,7 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:38:09 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/27 20:47:07 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:47:18 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	send_char(char c, pid_t srv_pid)
 	while (i < 8)
 	{
 		if ((c >> i) & 1)
-			kill(srv_pid, SIGUSR1);
+		{
+			if((kill(srv_pid, SIGUSR1) == -1))
+				exit(1);
+		}
 		else
 			kill(srv_pid, SIGUSR2);
 		i++;
-		usleep(100);
-		usleep(50);
+		usleep(NAP);
 	}
 }
 

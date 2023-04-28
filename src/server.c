@@ -6,16 +6,16 @@
 /*   By: aperez-m <aperez-m@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:22:31 by aperez-m          #+#    #+#             */
-/*   Updated: 2023/04/27 20:45:14 by aperez-m         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:29:01 by aperez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	char_printer(int bit)
+void char_printer(int bit)
 {
-	static char				i = 0;
-	static unsigned char	c = 0;
+	static int i = 0;
+	static unsigned char c = 0;
 
 	c |= (bit << i);
 	i++;
@@ -28,31 +28,16 @@ void	char_printer(int bit)
 	}
 }
 
-void	action(int signal, siginfo_t *info, void *ucontext)
+void action(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
 	char_printer(signal == SIGUSR1);
-	//static char				i = 0;
-	//static unsigned char	c = 0;
-
-	//(void)ucontext;
-	//(void)info;
-	//if (signal == SIGUSR1)
-	//	c |= (1 << i);
-	//i++;
-	//if (i == 8)
-	//{
-	//	if (c != 0)
-	//		write(1, &c, 1);
-	//	c = 0;
-	//	i = 0;
-	//}
 }
 
-void	set_signal_action(void)
+void set_signal_action(void)
 {
-	struct sigaction	sa;
+	struct sigaction sa;
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_sigaction = &action;
@@ -64,9 +49,9 @@ void	set_signal_action(void)
 	sigaction(SIGUSR2, &sa, NULL);
 }
 
-int	main(void)
+int main(void)
 {
-	pid_t				pid;
+	pid_t pid;
 
 	pid = getpid();
 	ft_putnbr_fd(pid, 1);
